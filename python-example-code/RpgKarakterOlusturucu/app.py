@@ -1,11 +1,13 @@
 from karakter import Karakter
 from savasci import Savasci
 from buyucu import Buyucu
+from muhtesemsuleyman import MuhtesemSuleyman
+from hurremsultan import HurremSultan
 import random
 
 def main():
-    k1 = Savasci("Arda")
-    k2 = Buyucu("Mira")
+    k1 = MuhtesemSuleyman("Kanuni")
+    k2 = HurremSultan("Hürrem")
     def oyun_dongusu(buyucu, savasci):
         tur = 1
         while buyucu.can > 0 and savasci.can > 0:
@@ -32,8 +34,8 @@ def main():
     while True:
         print("\n--- Mini RPG ---")
         print("1. Karakterleri göster")
-        print("2. Saldır (Arda → Mira)")
-        print("3. Saldır (Mira → Arda)")
+        print(f"2. Saldır ({k1.isim} → {k2.isim})")
+        print(f"3. Saldır ({k2.isim} → {k1.isim})")
         print("4. Otomatik Oyun Başlat")
         print("5. Çıkış")
 

@@ -4,15 +4,25 @@ import random
 class Buyucu(Karakter):
     def __init__(self,isim):
         super().__init__(isim,"Büyücü")
-        
-    def buyucuPasif(self, hasar):
+        self.hadsizlik=2
+        self.fabrika=2
+        self.ask=2
+        self.sarayKontrolu=2
+
+
+    def seviye_arttir(self):
+        self.seviye += 1
+        self.xp = 0
+        self.yeniXpdegeri += 10
+        print(f"{self.isim} seviye atladı! yeni seviye: {self.seviye}")
+
+    def buyucuPasif(self):
         if self.can < 80 or self.can > 40:
-            hasar += 10
+            self.hasar += 10
             self.xp += 3
-            return hasar
         if self.buyuNufuzu>=5:
             hasar+=5
-        return hasar
+        return self.hasar
         
             
     def  saldir(self,diger):
@@ -44,17 +54,15 @@ class Buyucu(Karakter):
             diger.savasciKontrolSkoru=0
             print(f"{self.isim}, {diger.isim} adlı karaktere {hasar} hasar verdi!")
         else:
-            hasar = self.buyucuPasif(hasar)
+            self.hasar = self.buyucuPasif()
             diger.can -= hasar
             self.xp += 15
             print(f"{self.isim}, {diger.isim} adlı karaktere {hasar} büyü hasarı verdi!")
         
         
         if self.xp >= self.yeniXpdegeri:
-            self.seviye += 1
+            self.seviye_arttir()
             self.zırh+=1
-            self.xp = 0
-            self.yeniXpdegeri += 10
             if self.seviye >=2:
                 self.ultiSeviye += 1
                 self.buyuNufuzu+=1

@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-import random
-
 class Karakter(ABC):
     def __init__(self, isim, tur):
         self.isim = isim
@@ -20,6 +18,9 @@ class Karakter(ABC):
         return (f"{self.isim} ({self.tur}) | Seviye: {self.seviye} | "
                 f"Can: {self.can} | XP: {self.xp} | Zırh: {self.zırh} | Ulti: {self.ultiSeviye}")
 
+    @abstractmethod
+    def seviye_arttir(self):
+        pass
 
     @abstractmethod
     def saldir(self, diger):
