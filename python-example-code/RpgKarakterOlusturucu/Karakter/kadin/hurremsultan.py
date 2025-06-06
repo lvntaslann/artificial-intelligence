@@ -23,14 +23,13 @@ class HurremSultan(Buyucu):
             self.hadsizlik += 1
             self.hasar += 5
 
+        diger.can -= self.hasar
+        self.xp += 10
+        print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
         if self.hasar > 20:
             self.hadsizlik += 2
             self.ask -= 2
             print("Edirne'deki saray yükleniyor...")
-
-        diger.can -= self.hasar
-        self.xp += 10
-        print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
 
     def saldir(self, diger):
         if self.can <= 0:

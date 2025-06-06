@@ -7,7 +7,10 @@ class Savasci(Karakter):
         self.tarihgucu = 10
         self.adalet = 2
         self.capkinlik = 1
-
+        self.can=300
+        self.zırh=2
+        self.buyuDirenci =2
+        self.buyucuKontrolSkoru = 1
 
     def seviye_arttir(self):
         self.seviye += 1
@@ -48,9 +51,9 @@ class Savasci(Karakter):
         if self.zırh > 8:
             hasar += 5
 
-        if diger.buyucuKontrolSkoru >= 3:
+        if diger.savasciKontrolSkoru >= 3:
             hasar = 0
-            diger.buyucuKontrolSkoru = 0
+            diger.savasciKontrolSkoru = 0
             print(f"{diger.isim} saldırıdan etkilenmedi! Kontrol etkisi uygulandı.")
         else:
             hasar = self.savasciPasif(hasar)

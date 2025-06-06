@@ -38,10 +38,9 @@ class MuhtesemSuleyman(Savasci):
         self.hadsizlik_kontrol(diger)
 
         if self.seviye > 2:
-            super().saldir(diger)  # Savaşçı’nın saldırısını uygula
+            super().saldir(diger)
         else:
             self.suleyman_hasar_hesapla_ve_saldir(diger)
 
-        # Seviye atlama kontrolü
         if self.xp >= self.yeniXpdegeri:
             self.seviye_arttir()

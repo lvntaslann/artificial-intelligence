@@ -8,7 +8,9 @@ class Buyucu(Karakter):
         self.fabrika=2
         self.ask=2
         self.sarayKontrolu=2
-
+        self.can=300
+        self.buyuNufuzu=2
+        self.savasciKontrolSkoru = 1
 
     def seviye_arttir(self):
         self.seviye += 1
@@ -45,13 +47,13 @@ class Buyucu(Karakter):
             hasar = random.randint(15,35)
             if hasar>25:
                 diger.zırh=0
-                if self.buyucuKontrolSkoru>0:
-                    self.buyucuKontrolSkoru-=1
+                if self.savasciKontrolSkoru>0:
+                    self.savasciKontrolSkoru-=1
 
 
-        if diger.savasciKontrolSkoru>=3:
+        if diger.buyucuKontrolSkoru>=3:
             hasar = 0
-            diger.savasciKontrolSkoru=0
+            diger.buyucuKontrolSkoru=0
             print(f"{self.isim}, {diger.isim} adlı karaktere {hasar} hasar verdi!")
         else:
             self.hasar = self.buyucuPasif()
@@ -62,11 +64,11 @@ class Buyucu(Karakter):
         
         if self.xp >= self.yeniXpdegeri:
             self.seviye_arttir()
-            self.zırh+=1
+            self.buyuNufuzu+=1
             if self.seviye >=2:
                 self.ultiSeviye += 1
                 self.buyuNufuzu+=1
-                self.buyucuKontrolSkoru+=1
+                self.savasciKontrolSkoru+=1
                 diger.can += 10
             print(f"{self.isim} seviye atladı! yeni seviye: {self.seviye}")
 
