@@ -22,3 +22,11 @@ class Karakter(ABC):
     @abstractmethod
     def saldir(self, diger):
         pass
+    
+    def canKontrol(self,diger):
+        if self.can <= 0:
+            print(f"{self.isim} baygın! Saldıramaz.")
+            return
+        if diger.can <= 0:
+            print(f"{diger.isim} zaten baygın!")
+            return

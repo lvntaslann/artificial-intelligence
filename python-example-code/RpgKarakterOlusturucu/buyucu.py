@@ -11,6 +11,7 @@ class Buyucu(Karakter):
         self.can=300
         self.buyuNufuzu=2
         self.savasciKontrolSkoru = 1
+        self.hasar=2
 
     def seviye_arttir(self):
         self.seviye += 1
@@ -27,7 +28,7 @@ class Buyucu(Karakter):
         return self.hasar
         
             
-    def  saldir(self,diger):
+    def saldir(self,diger):
         if self.can <= 0:
             self.can += 10
             print(f"{self.isim} baygın! saldıramaz")
@@ -38,28 +39,28 @@ class Buyucu(Karakter):
             return
         
         if self.ultiSeviye > 6:
-            hasar = random.randint(25,35)
-            if hasar>30:
+            self.hasar = random.randint(25,35)
+            if self.hasar>30:
                 diger.zırh -=5
                 if diger.zırh<0:
                     diger.zırh=0
         else:
-            hasar = random.randint(15,35)
-            if hasar>25:
+            self.hasar = random.randint(15,35)
+            if self.hasar>25:
                 diger.zırh=0
                 if self.savasciKontrolSkoru>0:
                     self.savasciKontrolSkoru-=1
 
 
         if diger.buyucuKontrolSkoru>=3:
-            hasar = 0
+            self.hasar = 0
             diger.buyucuKontrolSkoru=0
-            print(f"{self.isim}, {diger.isim} adlı karaktere {hasar} hasar verdi!")
+            print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
         else:
             self.hasar = self.buyucuPasif()
-            diger.can -= hasar
+            diger.can -= self.hasar - diger.zırh
             self.xp += 15
-            print(f"{self.isim}, {diger.isim} adlı karaktere {hasar} büyü hasarı verdi!")
+            print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} büyü hasarı verdi!")
         
         
         if self.xp >= self.yeniXpdegeri:
@@ -70,7 +71,6 @@ class Buyucu(Karakter):
                 self.buyuNufuzu+=1
                 self.savasciKontrolSkoru+=1
                 diger.can += 10
-            print(f"{self.isim} seviye atladı! yeni seviye: {self.seviye}")
 
         
 

@@ -7,10 +7,13 @@ class Savasci(Karakter):
         self.tarihgucu = 10
         self.adalet = 2
         self.capkinlik = 1
+        self.ask=2
         self.can=300
         self.zırh=2
         self.buyuDirenci =2
         self.buyucuKontrolSkoru = 1
+        self.sarayGucu=2
+        self.hadsizlik=1
 
     def seviye_arttir(self):
         self.seviye += 1
@@ -45,8 +48,8 @@ class Savasci(Karakter):
             self.zırh += 10
         elif hasar > 20:
             self.zırh += 5
-            if self.savasciKontrolSkoru > 0:
-                self.savasciKontrolSkoru -= 1
+            if self.buyucuKontrolSkoru > 0:
+                self.buyucuKontrolSkoru -= 1
 
         if self.zırh > 8:
             hasar += 5
@@ -67,4 +70,4 @@ class Savasci(Karakter):
                 self.ultiSeviye += 1
                 diger.can += 10
                 self.buyuDirenci += 1
-                self.savasciKontrolSkoru += 1
+                self.buyucuKontrolSkoru += 1
