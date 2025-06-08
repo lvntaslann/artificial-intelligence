@@ -13,6 +13,8 @@ class Buyucu(Karakter):
         self.savasciKontrolSkoru = 1
         self.hasar=2
 
+
+
     def seviye_arttir(self):
         self.seviye += 1
         self.xp = 0
@@ -24,17 +26,17 @@ class Buyucu(Karakter):
             self.hasar += 10
             self.xp += 3
         if self.buyuNufuzu>=5:
-            hasar+=5
+            self.hasar+=5
         return self.hasar
         
             
     def saldir(self,diger):
         if self.can <= 0:
-            self.can += 10
+            self.cani_degistir(-self.can)
             print(f"{self.isim} baygın! saldıramaz")
             return
         if diger.can <= 0:
-            diger.can += 10
+            diger.cani_degistir(-diger.can)
             print(f"{diger.isim} zaten baygın")
             return
         
@@ -52,13 +54,14 @@ class Buyucu(Karakter):
                     self.savasciKontrolSkoru-=1
 
 
-        if diger.buyucuKontrolSkoru>=3:
-            self.hasar = 0
-            diger.buyucuKontrolSkoru=0
-            print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
+        if diger.tur=="Savaşçı":
+            if diger.buyucuKontrolSkoru>=3:
+                self.hasar = 0
+                diger.buyucuKontrolSkoru=0
+                print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
         else:
             self.hasar = self.buyucuPasif()
-            diger.can -= self.hasar - diger.zırh
+            diger.cani_degistir(-(self.hasar - diger.zırh)) 
             self.xp += 15
             print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} büyü hasarı verdi!")
         
@@ -70,7 +73,7 @@ class Buyucu(Karakter):
                 self.ultiSeviye += 1
                 self.buyuNufuzu+=1
                 self.savasciKontrolSkoru+=1
-                diger.can += 10
+                diger.cani_degistir(10)
 
         
 

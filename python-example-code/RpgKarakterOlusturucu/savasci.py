@@ -23,7 +23,7 @@ class Savasci(Karakter):
 
     def savasciPasif(self, hasar):
         if hasar > 20:
-            self.can += 10
+            self.cani_degistir(10)
         if self.can < 10:
             self.zırh = random.randint(10, 20)
         if self.buyuDirenci >= 5:
@@ -35,39 +35,42 @@ class Savasci(Karakter):
 
     def saldir(self, diger):
         if self.can <= 0:
-            self.can += 10
+            self.cani_degistir(-self.can)
             print(f"{self.isim} baygın! saldıramaz.")
             return
         if diger.can <= 0:
-            diger.can += 10
+            diger.cani_degistir(-diger.can)
             print(f"{diger.isim} zaten baygın!")
 
-        hasar = random.randint(30, 50) if self.ultiSeviye > 6 else random.randint(10, 30)
-        self.hasar = hasar
-        if hasar > 35 and self.ultiSeviye > 6:
+        self.hasar = random.randint(30, 50) if self.ultiSeviye > 6 else random.randint(10, 30)
+        if self.hasar > 35 and self.ultiSeviye > 6:
             self.zırh += 10
-        elif hasar > 20:
+        elif self.hasar > 20:
             self.zırh += 5
             if self.buyucuKontrolSkoru > 0:
                 self.buyucuKontrolSkoru -= 1
 
         if self.zırh > 8:
-            hasar += 5
+            self.hasar += 5
 
-        if diger.savasciKontrolSkoru >= 3:
-            hasar = 0
-            diger.savasciKontrolSkoru = 0
-            print(f"{diger.isim} saldırıdan etkilenmedi! Kontrol etkisi uygulandı.")
+        if diger.tur == "Buyucu":
+            if diger.savasciKontrolSkoru >= 3:
+                diger.savasciKontrolSkoru = 0
+                print(f"{diger.isim} saldırıdan etkilenmedi! Kontrol etkisi uygulandı.")
+            else:
+                self.hasar = self.savasciPasif(self.hasar)
+                diger.cani_degistir(-self.hasar)
+                print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
         else:
-            hasar = self.savasciPasif(hasar)
-            diger.can -= hasar
+            self.hasar = self.savasciPasif(self.hasar)
+            diger.cani_degistir(-self.hasar)
             self.xp += 10
-            print(f"{self.isim}, {diger.isim} adlı karaktere {hasar} hasar verdi!")
+            print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
 
         if self.xp >= self.yeniXpdegeri:
             self.seviye_arttir()
             if self.seviye >= 2:
                 self.ultiSeviye += 1
-                diger.can += 10
+                diger.cani_degistir(10)
                 self.buyuDirenci += 1
                 self.buyucuKontrolSkoru += 1

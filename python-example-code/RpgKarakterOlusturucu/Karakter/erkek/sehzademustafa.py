@@ -9,7 +9,7 @@ class SehzadeMustafa(Savasci):
         self.hasar+=random.randint(20, 40)
         self.xp += 10
         if self.seviye<2:
-            diger.can -= self.hasar
+            diger.cani_degistir(-self.hasar)
             self.xp += 10
         print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
 
@@ -29,7 +29,7 @@ class SehzadeMustafa(Savasci):
                 self.hasar-=1
                 self.hadsizlik = max(0, self.hadsizlik - 1)
         else:
-            self.can+=1
+            self.cani_degistir(1)
         
         if diger.tur=="Buyucu":
             self.hasar+=10

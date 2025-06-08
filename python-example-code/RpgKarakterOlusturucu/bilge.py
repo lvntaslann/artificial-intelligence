@@ -16,23 +16,23 @@ class Bilge(Karakter):
 
     def dusunceKontrol(self,diger):
         if self.dusunce=="Üzgün":
-           self.can-=5
+           self.cani_degistir(-5)
            self.bilgelikgucu-=1
            self.hasar-=1
-           diger.can-=3
+           diger.cani_degistir(-1)
         elif self.dusunce=="Öfke":
-           self.can-=3
+           self.cani_degistir(-3)
            self.bilgelikgucu+=2
            self.hasar+=20
-           diger.can-=10
+           diger.cani_degistir(-10)
         elif self.dusunce=="Coşku":
-           self.can+=30
+           self.cani_degistir(30)
            self.hasar=0
            self.bilgelikgucu+=1
 
     def saldir(self, diger):
         if self.can<=0:
-            self.can=0
+            self.cani_degistir(-self.can)
             print(f"${self.isim} baygın! saldırılamaz")
         
         if self.zeka>5:

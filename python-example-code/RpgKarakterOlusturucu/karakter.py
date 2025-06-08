@@ -8,7 +8,7 @@ class Karakter(ABC):
         self.xp = 0
         self.yeniXpdegeri = 50
         self.ultiSeviye = 0
-        
+        self.max_can=self.can
         
 
     def __str__(self):
@@ -30,3 +30,10 @@ class Karakter(ABC):
         if diger.can <= 0:
             print(f"{diger.isim} zaten baygın!")
             return
+        
+    def cani_degistir(self, miktar):
+        self.can += miktar
+        if self.can < 0:
+            self.can = 0
+        if self.can > self.max_can:
+            self.max_can = self.can    

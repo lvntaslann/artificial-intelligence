@@ -1,81 +1,100 @@
-# app.py
+#app.py
 
+import pygame
+import sys
 import random
 from enums.karakterEnum import karakter_sec
+from arayuz import Arayuz
 
-def oyun_dongusu(karakter1, karakter2):
-    tur = 1
-    while karakter1.can > 0 and karakter2.can > 0:
-        print(f"\n--- TUR {tur} ---")
-        if random.choice([True, False]):
-            karakter1.saldir(karakter2)
-            if karakter2.can <= 0:
-                karakter2.can = 0
-                break
-            karakter2.saldir(karakter1)
-        else:
-            karakter2.saldir(karakter1)
-            if karakter1.can <= 0:
-                karakter1.can = 0
-                break
-            karakter1.saldir(karakter2)
-        print(f"{karakter1.isim} Can: {karakter1.can}, Seviye: {karakter1.seviye}")
-        print(f"{karakter2.isim} Can: {karakter2.can}, Seviye: {karakter2.seviye}")
-        tur += 1
+def game_loop(first_character, second_character):
+    arayuz = Arayuz()
+    clock = pygame.time.Clock()
+    running = True
 
-    print("\n--- OYUN BİTTİ ---")
-    if karakter1.can > 0:
-        print(f"Kazanan: {karakter1.isim}")
-    else:
-        print(f"Kazanan: {karakter2.isim}")
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                break
+
+        if first_character.can > 0 and second_character.can > 0:
+            if random.choice([True, False]):
+                first_character.saldir(second_character)
+                if second_character.can <= 0:
+                    second_character.can = 0
+                pygame.time.wait(500)
+                second_character.saldir(first_character)
+                if first_character.can <= 0:
+                    first_character.can = 0
+            else:
+                second_character.saldir(first_character)
+                if first_character.can <= 0:
+                    first_character.can = 0
+                pygame.time.wait(500)
+                first_character.saldir(second_character)
+                if second_character.can <= 0:
+                    second_character.can = 0
+            pygame.time.wait(1000)
+
+        if first_character.can <= 0 or second_character.can <= 0:
+            running = False
+
+        arayuz.screen.fill(arayuz.white)
+        arayuz.health_bar(100, 50, 250, 25, first_character.isim, first_character.max_can, first_character.can)
+        arayuz.health_bar(450, 50, 250, 25, second_character.isim, second_character.max_can, second_character.can)
+
+        pygame.display.flip()
+        clock.tick(30)
+
+    print("Kazanan:", first_character.isim if first_character.can > 0 else second_character.isim)
+    pygame.time.wait(2000)
 
 def main():
-    karakter = None
-    karakter2 = None
+    pygame.init()
+    arayuz = Arayuz()
+    clock = pygame.time.Clock()
+    running = True
 
-    while True:
-        print("\n--- Mini RPG ---")
-        print("1. Karakter seç")
-        print("2. Karakterleri göster")
-        print("3. Otomatik Oyun Başlat")
-        print("4. Çıkış")
+    first_selected = None
+    second_selected = None
+    selection_order = 1
 
-        secim = input("Seçim: ")
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                break
 
-        if secim == "1":
-            print("Kullanılabilir karakterler: Hürrem, Süleyman, Cihangir, Tuborg Selim, Mehmet, Mustafa, Mihrima, Bilge")
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if first_selected and second_selected:
+                    continue
+                pos = pygame.mouse.get_pos()
+                for rect, name in arayuz.get_buttons():
+                    if rect.collidepoint(pos):
+                        if selection_order == 1:
+                            first_selected = name
+                            selection_order = 2
+                        elif selection_order == 2:
+                            if name == first_selected:
+                                print("Aynı karakteri seçemezsin!")
+                            else:
+                                second_selected = name
 
-            isim1 = input("1. Karakter ismi: ")
-            karakter = karakter_sec(isim1)
-            if not karakter:
-                print("Geçersiz karakter!")
-                continue
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if first_selected and second_selected:
+                        k1 = karakter_sec(first_selected)
+                        k2 = karakter_sec(second_selected)
+                        if k1 and k2:
+                            game_loop(k1, k2)
+                        else:
+                            print("Karakter seçimi geçersiz!")
 
-            isim2 = input("2. Karakter ismi: ")
-            karakter2 = karakter_sec(isim2)
-            if not karakter2:
-                print("Geçersiz karakter!")
-                karakter = None
-                continue
+        arayuz.ciz(first_selected, second_selected, selection_order)
+        clock.tick(30)
 
-        elif secim == "2":
-            if karakter and karakter2:
-                print(f"Karakter 1: {karakter.isim}, Tür: {type(karakter).__name__}")
-                print(f"Karakter 2: {karakter2.isim}, Tür: {type(karakter2).__name__}")
-            else:
-                print("Lütfen önce karakter seçin.")
-
-        elif secim == "3":
-            if karakter and karakter2:
-                oyun_dongusu(karakter, karakter2)
-            else:
-                print("Önce karakter seçmelisin.")
-
-        elif secim == "4":
-            print("Oyun sonlandırıldı.")
-            break
-        else:
-            print("Geçersiz giriş.")
+    arayuz.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     main()

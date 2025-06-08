@@ -14,7 +14,7 @@ class HurremSultan(Buyucu):
              self.fabrika += 1
              if self.fabrika > 10:
                 self.sarayKontrolu += 4
-        diger.can-=self.hasar
+        diger.cani_degistir(-self.hasar)
         print(f"{self.isim}, {diger.isim}'ına biricik aşkına... {self.hasar} hasar verdi!")
 
     def hurrem_hasar_hesapla_ve_saldir(self, diger):
@@ -22,7 +22,7 @@ class HurremSultan(Buyucu):
         if self.sarayKontrolu > 10:
             self.hadsizlik += 1
             self.hasar += 5
-        diger.can -= self.hasar
+        diger.cani_degistir(-self.hasar)
         self.xp += 10
         print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
         if self.hasar > 20:

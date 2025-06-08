@@ -20,7 +20,7 @@ class MuhtesemSuleyman(Savasci):
             self.ask-=max(0, self.ask - 1)
         if self.ask==0:
             self.hasar+=20   
-        diger.can -= self.hasar
+        diger.cani_degistir(-self.hasar)
         self.xp += 10
         print(f"{self.isim}, {diger.isim}'ına biricik aşkına... {self.hasar} hasar verdi!")
 
@@ -32,27 +32,19 @@ class MuhtesemSuleyman(Savasci):
                 if diger.isim=="Hürrem":
                     diger.fabrika-=1
                     self.capkinlik+=2
-                diger.can = 0
+                diger.cani_degistir(-diger.can)
                 print(f"{diger.isim}, Süleyman'ın adaletiyle yargılandı ve bayıldı!")
             
 
     def suleyman_hasar_hesapla_ve_saldir(self, diger):
         self.hasar += random.randint(20, 40)
-        diger.can -= self.hasar
+        diger.cani_degistir(-self.hasar)
         self.xp += 10
         print(f"{self.isim}, {diger.isim} adlı karaktere {self.hasar} hasar verdi!")
 
     def saldir(self, diger):
         self.canKontrol(diger)
-        if self.can <= 0:
-            print(f"{self.isim} baygın! Saldıramaz.")
-            return
-        if diger.can <= 0:
-            print(f"{diger.isim} zaten baygın!")
-            return
-
         self.hadsizlik_kontrol(diger)
-
         if self.seviye < 2:
             if diger.isim=="Hürrem":
                 self.hurreme_ozel_saldiri(diger)
